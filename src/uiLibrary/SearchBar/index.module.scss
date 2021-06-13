@@ -1,0 +1,106 @@
+.moodInputForm {
+  box-sizing: border-box;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  border-radius: 34px;
+  width: 100%;
+
+  &[variant="emoticon"] {
+    border: 1px solid white;
+    background-color: transparent;
+  }
+
+  &[variant="keyword"] {
+    border: 1px solid #ccc;
+    background-color: white;
+  }
+
+  .moodInputContainer {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 70px);
+    min-height: 70px;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-left: 30px;
+
+    .keyWordsContainer {
+      padding: 20px 10px 10px 0;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .moodInput {
+      border: none;
+      height: 70px;
+      width: 100%;
+      text-align: center;
+      outline: none;
+      font-size: 1.5rem;
+      box-sizing: border-box;
+      font-family: "Source Sans Pro", sans-serif;
+
+      &[variant="emoticon"] {
+        background-color: inherit;
+      }
+
+      &[variant="keyword"] {
+        background-color: white;
+      }
+
+      &:focus::-webkit-input-placeholder {
+        color: transparent;
+      }
+      &:focus::-moz-placeholder {
+        color: transparent;
+      }
+      &:-moz-placeholder {
+        color: transparent;
+      }
+    }
+  }
+
+  .searchBoxButton {
+    border: none;
+    width: 70px;
+    height: 100%;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 0;
+    border-left: 1px solid #f1f1f1;
+    cursor: pointer;
+
+    &[variant="emoticon"] {
+      background-color: transparent;
+    }
+
+    &[variant="keyword"] {
+      background-color: white;
+    }
+
+    > svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      transition: all 0.2s ease-out, color 0.2s ease-out;
+      fill: #333;
+    }
+
+    &:disabled {
+      cursor: auto;
+      > svg {
+        fill: #ccc;
+      }
+    }
+  }
+}
+
+.hint {
+  margin: 0.625rem 2.1875rem;
+  font-size: 0.9rem;
+  color: #999;
+  height: 1.1875rem;
+}

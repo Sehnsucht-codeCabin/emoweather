@@ -1,0 +1,22 @@
+.emoticonWrapper {
+  margin: 2.5rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  button {
+    background-color: transparent;
+    width: 4.375rem;
+    height: 4.375rem;
+    margin: 0 1rem 1.875rem;
+    border: none;
+    overflow: hidden;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+
+    svg {
+      fill: white;
+    }
+  }
+}
