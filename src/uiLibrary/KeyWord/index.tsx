@@ -1,12 +1,18 @@
 import styles from "./index.module.scss";
 
-const KeyWord = ({ keyWord, removeKeyWord }) => {
+interface IKeyWord {
+    term: string,
+    active: boolean,
+    key: string
+}
+
+const KeyWord = ({ keyWord, removeKeyWord } : { keyWord: IKeyWord, removeKeyWord: React.MouseEventHandler<HTMLButtonElement>}) => {
   const { term, active } = keyWord;
   return (
-    <div className={styles.keyWordContainer} variant={active ? "enabled" : "disabled"}>
+    <div className={styles.keyWordContainer} data-variant={active ? "enabled" : "disabled"}>
       <div>
         <span>{term}</span>
-        <span variant={active ? "enabled" : "disabled"}></span>
+        <span data-variant={active ? "enabled" : "disabled"}></span>
       </div>
       <button type="button" data-term={term} onClick={removeKeyWord}>
         {active ? <svg viewBox="0 0 20 20">

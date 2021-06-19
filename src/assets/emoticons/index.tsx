@@ -1,6 +1,13 @@
 import { nanoid } from "@reduxjs/toolkit";
 
-export default {
+interface IEmoticon {
+    [key: string]: {
+        html: JSX.Element,
+        key: string
+    }
+}
+
+const emoticons : IEmoticon = {
     sad: {
         html: (
             <>
@@ -278,3 +285,5 @@ export default {
         key: nanoid()
     }
 };
+
+export default emoticons;

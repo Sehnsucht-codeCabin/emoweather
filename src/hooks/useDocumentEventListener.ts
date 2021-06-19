@@ -1,23 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeUiElement } from "src/features/documentEventListener";
-import { triggerUiElement } from "src/features/documentEventListener/documentEventListenerSlice";
 import { ABOUT, EMOTICON } from "../constants";
+import { setEventListenerSelector, uiReferenceSelector, eventTypeSelector, mouseCoordinatesSelector } from "../store/selectors";
+import { triggerUiElement } from "../store/slices/documentEventListenerSlice";
 
 const useDocumentEventListener = () => {
-
-    const storedData = useSelector(({ loader, documentEventListener }) => ({
-        activeLoader: loader.activeLoader,
-        setEventListener: documentEventListener.setEventListener,
-        activePopUp: documentEventListener.triggeredPopUp,
-        uiReference: documentEventListener.uiReference,
-        eventType: documentEventListener.eventType,
-        mouseCoordinates: documentEventListener.mouseCoordinates,
-    }));
+    const uiReference = useSelector(uiReferenceSelector);
+    const setEventListener = useSelector(setEventListenerSelector);
+    const eventType = useSelector(eventTypeSelector);
+    const mouseCoordinates = useSelector(mouseCoordinatesSelector);
 
     const dispatch = useDispatch();
 
-    const { setEventListener, uiReference, eventType, mouseCoordinates } = storedData;
     const correctReference = [EMOTICON, ABOUT].includes(uiReference) ? "modal" : uiReference;
 
     const [eventDetails, setEventDetails] = useState({
@@ -27,19 +21,34 @@ const useDocumentEventListener = () => {
         currentMouseCoordinates: mouseCoordinates
     });
 
+    const closeUiElement : Function = useCallback((event: KeyboardEvent) => {
+        const { type, key, target }: { type: string; key: string, target: EventTarget | null } = event;
+        return {
+            modal: () => {
+                if ((type === "click" && (target as HTMLElement)?.dataset.info === "close-modal") || (key && key === "Escape")) {
+                    document.body.style.overflow = "auto";
+                    return true;
+                }
+            },
+            popup: () => {
+                if (type === "click" && ((target as HTMLElement)?.dataset.info !== "popUpBody" || (target as HTMLElement)?.dataset.info === "closePopUpBtn")) return true;
+            },
+        }
+    }, []);
+
     const onCloseUiElement = useCallback((event) => {
         const { currentEventType } = eventDetails;
         const { key, target } = event;
         if (target.dataset.info === "initiator" && key !== "Escape") {
-            currentEventType.forEach(type => document.removeEventListener(type, onCloseUiElement));
+            currentEventType.forEach((type : string) => document.removeEventListener(type, onCloseUiElement));
             return;
         }
         const closeUi = closeUiElement(event)[correctReference]();
         if (closeUi) {
-            currentEventType.forEach(type => document.removeEventListener(type, onCloseUiElement));
+            currentEventType.forEach((type : string)=> document.removeEventListener(type, onCloseUiElement));
             dispatch(triggerUiElement({ setEventListener: false, uiReference: null, eventType: null, mouseCoordinates: null }));
         } 
-    }, [correctReference, dispatch, eventDetails]);
+    }, [correctReference, dispatch, eventDetails, closeUiElement]);
 
     useEffect(() => {
         const { currentSetEventListener, currentUiReference, currentEventType, currentMouseCoordinates } = eventDetails;
@@ -56,7 +65,7 @@ const useDocumentEventListener = () => {
     useEffect(() => {
         const { currentSetEventListener, currentEventType, currentMouseCoordinates, currentUiReference } = eventDetails;
         if (currentSetEventListener) {
-            currentEventType.forEach(type => document.addEventListener(type, onCloseUiElement));
+            currentEventType.forEach((type : string) => document.addEventListener(type, onCloseUiElement));
             dispatch(triggerUiElement({ setEventListener: false, uiReference: currentUiReference, eventType: currentEventType, mouseCoordinates: currentMouseCoordinates }));
         }
     }, [dispatch, eventDetails, onCloseUiElement, uiReference]);

@@ -6,12 +6,12 @@
   border-radius: 34px;
   width: 100%;
 
-  &[variant="emoticon"] {
+  &[data-variant="emoticon"] {
     border: 1px solid white;
     background-color: transparent;
   }
 
-  &[variant="keyword"] {
+  &[data-variant="keyword"] {
     border: 1px solid #ccc;
     background-color: white;
   }
