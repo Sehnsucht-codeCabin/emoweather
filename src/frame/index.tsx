@@ -9,11 +9,7 @@ import Modal from "../uiLibrary/Modal";
 import Header from "./Header";
 import Footer from "./Footer";
 
-type Props = {
-  children: React.ReactNode
-};
-
-const Frame = ({ children } : Props) => {
+const Frame = ({ children } : { children: React.ReactNode }) => {
 
   const uiReference = useSelector(uiReferenceSelector);
   const activeLoader = useSelector(activeLoaderSelector);
@@ -25,7 +21,7 @@ const Frame = ({ children } : Props) => {
   return (
     <div className={styles.frameContainer}>
       <Header />
-        {/* <section>{children}</section> */}
+        <section>{children}</section>
       <Footer />
       {correctReference === "modal" && <Modal />}
       {activeLoader && <Loader />}

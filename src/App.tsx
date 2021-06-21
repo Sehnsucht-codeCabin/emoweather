@@ -1,4 +1,4 @@
-// import Routes from "./Routes";
+import Routes from "./Routes";
 import './App.scss';
 import { BrowserRouter, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -9,9 +9,9 @@ const App = () => (
   <BrowserRouter>
     <Provider store={store}>
       <Frame>
-          {/* <Switch>
+          <Switch>
             <Routes />
-          </Switch> */}
+          </Switch>
       </Frame>
     </Provider>
   </BrowserRouter>
