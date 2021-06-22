@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Emoweather
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Research has confirmed what we as living beings have suspicioned for quite some time: weather has indeed an impact on our mood and behaviour in different ways and intensity levels.
 
-## Available Scripts
+Such premise is the backbone of this pet project of mine which aims to stablish a more or less direct relation between human moods and the weather and therefore fetch a geographic location on earth as the intended outcome.
 
-In the project directory, you can run:
+All weather data is provided by a [free weather api](https://www.metaweather.com/) which feeds on an array of sources like [BBC](https://www.bbc.com/weather) and [OpenWeather](https://openweathermap.org/).
 
-### `npm start`
+Be aware that this is an ongoing project and many factors beyond lower or higher temperatures have an influence on our state of mind so I'm sorry in advance if by any chance any upcoming result does not match your current mood in the most accurate fashion. I hope you enjoy it anyways.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Cheers!
+&nbsp;
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🚀 Quick start
 
-### `npm test`
+### Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Get to the root directory to install any dependencies:
 
-### `npm run build`
+```bash
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Run the app
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Run the app in the development mode by hitting:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+Open [https://localhost:3000](http://localhost:3000) to view it in the browser.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### License
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[MIT](https://choosealicense.com/licenses/mit/)
