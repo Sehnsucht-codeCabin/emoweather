@@ -27,12 +27,14 @@ const useInput = () => {
     const insertMood = (value : string) => {
         if (!emoticonForm && (!value || (value && value[value.length - 1] !== ","))) return;
 
+        console.log(value);
+
         const cleanValue = value?.slice(0, -1);
         const termOnList = keyWords.find((keyWord : IKeyWord) => keyWord.term === cleanValue);
         setCurrentValue("");
         if (termOnList) {
-        setHintContent(`The term '${cleanValue}' is already listed`);
-        return;
+            setHintContent(`The term '${cleanValue}' is already listed`);
+            return;
         }
 
         setHintContent("");
@@ -72,13 +74,17 @@ const useInput = () => {
             dispatch(triggerUiElement({ setEventListener: false, uiReference: null, eventType: null }));
         }
 
-        const query = [keyWords.filter(keyword => !!keyword.active)[0].term]; // THIS WILL DO FOR NOW!
-        history.push({
-        pathname: "/result",
-        state: {
-            moods: query,
-        },
-        });
+        const query = keyWords.filter(keyword => !!keyword.active);
+        const term : string[] | null = query.length ? [query[0].term] : (currentValue ? [currentValue] : null);
+        if (term) {
+            history.push({
+                pathname: "/result",
+                state: {
+                    moods: term,
+                },
+            });
+        }
+        
     };
 
     const removeKeyWord : React.MouseEventHandler<HTMLButtonElement> = (event) => {
