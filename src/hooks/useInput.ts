@@ -27,9 +27,7 @@ const useInput = () => {
     const insertMood = (value : string) => {
         if (!emoticonForm && (!value || (value && value[value.length - 1] !== ","))) return;
 
-        console.log(value);
-
-        const cleanValue = value?.slice(0, -1);
+        const cleanValue = !emoticonForm ? value?.slice(0, -1) : value;
         const termOnList = keyWords.find((keyWord : IKeyWord) => keyWord.term === cleanValue);
         setCurrentValue("");
         if (termOnList) {
