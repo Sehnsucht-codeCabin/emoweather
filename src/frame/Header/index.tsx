@@ -52,7 +52,7 @@ const Header = () => {
           <div style={{width:"172px"}}></div>
         </div>
         <div className={styles.githubWrapper}>
-          <a target="_blank" rel="noopener noreferrer" href="https://github.com/Sehnsucht-codeCabin/emoweather" className={styles.githubCornerAnchor} aria-label="View source on GitHub">
+          <a data-test="github-link" target="_blank" rel="noopener noreferrer" href="https://github.com/Sehnsucht-codeCabin/emoweather" className={styles.githubCornerAnchor} aria-label="View source on GitHub">
             <svg
               width="80"
               height="80"
