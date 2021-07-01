@@ -1,10 +1,9 @@
 import { nanoid } from "@reduxjs/toolkit";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { ContextType } from "../commonTypings";
 import { EMOTICON } from "../constants";
-import { uiReferenceSelector } from "../store/selectors";
-import { triggerUiElement } from "../store/slices/documentEventListenerSlice";
+import EmoweatherContext from "../context";
 
 interface IKeyWord {
     term: string,
@@ -14,9 +13,9 @@ interface IKeyWord {
 
 const useInput = () => {
     const history = useHistory();
-    const dispatch = useDispatch();
-
-    const uiReference = useSelector(uiReferenceSelector);
+    
+    const { setTriggerUiElement, triggerUiElement } = useContext(EmoweatherContext) as ContextType;
+    const { uiReference } = triggerUiElement;
 
     const [keyWords, setKeyWords] = useState<IKeyWord[]>([]);
     const [activeButton, setActiveButton] = useState(false);
@@ -69,7 +68,7 @@ const useInput = () => {
         event.preventDefault();
         if (emoticonForm) {
             document.body.style.overflow = "auto";
-            dispatch(triggerUiElement({ setEventListener: false, uiReference: null, eventType: null }));
+            setTriggerUiElement({ setEventListener: false, uiReference: null, eventType: null });
         }
 
         const query = keyWords.filter(keyword => !!keyword.active);

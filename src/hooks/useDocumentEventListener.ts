@@ -1,24 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { ContextType } from "../commonTypings";
 import { ABOUT, EMOTICON } from "../constants";
-import { setEventListenerSelector, uiReferenceSelector, eventTypeSelector, mouseCoordinatesSelector } from "../store/selectors";
-import { triggerUiElement } from "../store/slices/documentEventListenerSlice";
+import EmoweatherContext from "../context";
 
 const useDocumentEventListener = () => {
-    const uiReference = useSelector(uiReferenceSelector);
-    const setEventListener = useSelector(setEventListenerSelector);
-    const eventType = useSelector(eventTypeSelector);
-    const mouseCoordinates = useSelector(mouseCoordinatesSelector);
+    const { setTriggerUiElement, triggerUiElement } = useContext(EmoweatherContext) as ContextType;
+    const { uiReference, setEventListener, eventType } = triggerUiElement;
 
-    const dispatch = useDispatch();
-
-    const correctReference = [EMOTICON, ABOUT].includes(uiReference) ? "modal" : uiReference;
+    const correctReference = uiReference && [EMOTICON, ABOUT].includes(uiReference) ? "modal" : uiReference;
 
     const [eventDetails, setEventDetails] = useState({
         currentSetEventListener: setEventListener,
         currentUiReference: uiReference,
         currentEventType: eventType,
-        currentMouseCoordinates: mouseCoordinates
     });
 
     const closeUiElement : Function = useCallback((event: KeyboardEvent) => {
@@ -40,35 +34,34 @@ const useDocumentEventListener = () => {
         const { currentEventType } = eventDetails;
         const { key, target } = event;
         if (target.dataset.info === "initiator" && key !== "Escape") {
-            currentEventType.forEach((type : string) => document.removeEventListener(type, onCloseUiElement));
+            currentEventType?.forEach((type : string) => document.removeEventListener(type, onCloseUiElement));
             return;
         }
-        const closeUi = closeUiElement(event)[correctReference]();
+        const closeUi = correctReference && closeUiElement(event)[correctReference]();
         if (closeUi) {
-            currentEventType.forEach((type : string)=> document.removeEventListener(type, onCloseUiElement));
-            dispatch(triggerUiElement({ setEventListener: false, uiReference: null, eventType: null, mouseCoordinates: null }));
+            currentEventType?.forEach((type : string)=> document.removeEventListener(type, onCloseUiElement));
+            setTriggerUiElement({ setEventListener: false, uiReference: null, eventType: null });
         } 
-    }, [correctReference, dispatch, eventDetails, closeUiElement]);
+    }, [eventDetails, closeUiElement, correctReference, setTriggerUiElement]);
 
     useEffect(() => {
-        const { currentSetEventListener, currentUiReference, currentEventType, currentMouseCoordinates } = eventDetails;
-        if (currentSetEventListener !== setEventListener || currentUiReference !== uiReference || currentEventType !== eventType || currentMouseCoordinates !== mouseCoordinates) {
+        const { currentSetEventListener, currentUiReference, currentEventType } = eventDetails;
+        if (currentSetEventListener !== setEventListener || currentUiReference !== uiReference || currentEventType !== eventType) {
             setEventDetails({
                 currentSetEventListener: setEventListener,
                 currentUiReference: uiReference,
                 currentEventType: eventType,
-                currentMouseCoordinates: mouseCoordinates
             });
         }
-    }, [dispatch, eventDetails, eventType, mouseCoordinates, setEventListener, uiReference]);
+    }, [eventDetails, eventType, setEventListener, uiReference]);
 
     useEffect(() => {
-        const { currentSetEventListener, currentEventType, currentMouseCoordinates, currentUiReference } = eventDetails;
+        const { currentSetEventListener, currentEventType, currentUiReference } = eventDetails;
         if (currentSetEventListener) {
-            currentEventType.forEach((type : string) => document.addEventListener(type, onCloseUiElement));
-            dispatch(triggerUiElement({ setEventListener: false, uiReference: currentUiReference, eventType: currentEventType, mouseCoordinates: currentMouseCoordinates }));
+            currentEventType?.forEach((type : string) => document.addEventListener(type, onCloseUiElement));
+            setTriggerUiElement({ setEventListener: false, uiReference: currentUiReference, eventType: currentEventType });
         }
-    }, [dispatch, eventDetails, onCloseUiElement, uiReference]);
+    }, [eventDetails, onCloseUiElement, setTriggerUiElement, uiReference]);
 
 }
 

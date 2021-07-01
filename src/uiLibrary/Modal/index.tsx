@@ -1,12 +1,14 @@
-import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { ContextType } from "../../commonTypings";
 import { ABOUT, EMOTICON } from "../../constants";
-import { uiReferenceSelector } from "../../store/selectors";
+import EmoweatherContext from "../../context";
 import AboutModal from "./children/AboutModal";
 import EmoticonModal from "./children/EmoticonModal";
 import styles from "./index.module.scss";
 
 const Modal = () => {
-    const uiReference = useSelector(uiReferenceSelector);
+    const { triggerUiElement } = useContext(EmoweatherContext) as ContextType;
+    const { uiReference } = triggerUiElement;
 
     const getHeader = () => {
         let modalHeader;

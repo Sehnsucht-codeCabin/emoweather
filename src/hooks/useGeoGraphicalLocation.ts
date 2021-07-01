@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { getCitiesWeather, getCitiesWoeids, getMoodGroup } from "../pages/MoodResult/services";
-import { activateLoader } from "../store/slices/loaderSlice";
 import moodStates from "../assets/moodStates";
 import { filterAsyncCallResponse } from "../helpers";
+import EmoweatherContext from "../context";
+import { ContextType } from "../commonTypings";
 
 type value = {
   moodKey: string, 
@@ -30,7 +30,6 @@ interface IGeographicalLocation {
 }
 
 const useGeoGraphicalLocation = () => { 
-    const dispatch = useDispatch();
     const { state } : { state: { moods: string[]} } = useLocation();
     const [currentLocationState, setCurrentLocationState] = useState(state);
     const [moodGroup, setMoodGroup] = useState<{ cities: any, group: string } | undefined>();
@@ -38,6 +37,8 @@ const useGeoGraphicalLocation = () => {
     const [citiesWeather, setCitiesWeather] = useState<{ [key: string]: any }[] | undefined>();
     const [geographicalLocation, setGeoGraphicalLocation] = useState<IGeographicalLocation | string>();
     const [moodKeys] = useState(Object.keys(moodStates));
+
+    const { activateLoader } = useContext(EmoweatherContext) as ContextType;
 
     const onSetWinnerMood = useCallback(async (moods) => {
         let moodGroupsScore : {
@@ -57,7 +58,7 @@ const useGeoGraphicalLocation = () => {
             const { errorMessages, resolvedPromises } : { errorMessages: string[], resolvedPromises: value[]} = filterAsyncCallResponse(response);
             if (errorMessages.length) {
                 setGeoGraphicalLocation("Something went wrong. Please, try again.");
-                dispatch(activateLoader(false));
+                activateLoader(false);
                 return;
             }
             if (resolvedPromises.length) setMoodGroupScore(resolvedPromises);
@@ -86,11 +87,11 @@ const useGeoGraphicalLocation = () => {
                 group: winnerMood,
             });
         } else {
-            dispatch(activateLoader(false));
+            activateLoader(false);
             setGeoGraphicalLocation("No results found. Please, try again.");
         }
 
-    }, [moodKeys, dispatch]);
+    }, [activateLoader, moodKeys]);
 
     const filterHotAndHottestStates = useCallback((humidity) => {
         if (citiesWeather) {
@@ -155,12 +156,12 @@ const useGeoGraphicalLocation = () => {
     useEffect(() => {
         const componentMounted = true;
         if (!moodGroup) {
-            dispatch(activateLoader(true));
+            activateLoader(true);
             const sanitizedMoods = state.moods.map((mood) => mood.trim().toLowerCase());
             componentMounted && onSetWinnerMood(sanitizedMoods);
         }
 
-    }, [moodGroup, dispatch, state, onSetWinnerMood]);
+    }, [moodGroup, state, onSetWinnerMood, activateLoader]);
 
     useEffect(() => {
         const componentMounted = true;
@@ -176,7 +177,7 @@ const useGeoGraphicalLocation = () => {
                     const { errorMessages, resolvedPromises } : { errorMessages: string[], resolvedPromises: number[]} = filterAsyncCallResponse(response);
                     if (errorMessages.length) {
                         setGeoGraphicalLocation("Something went wrong. Please, try again.");
-                        dispatch(activateLoader(false));
+                        activateLoader(false);
                         return;
                     }
                     if (resolvedPromises.length) setCitiesWoeids(resolvedPromises);
@@ -184,7 +185,7 @@ const useGeoGraphicalLocation = () => {
             };
             onGetCitiesWoeids();
         }
-    }, [moodGroup, dispatch, citiesWoeids]);
+    }, [moodGroup, citiesWoeids, activateLoader]);
 
     useEffect(() => {
         if (citiesWoeids?.length) {
@@ -195,7 +196,7 @@ const useGeoGraphicalLocation = () => {
                     const { errorMessages, resolvedPromises } : { errorMessages: string[], resolvedPromises: any[] } = filterAsyncCallResponse(response);
                     if (errorMessages.length) {
                         setGeoGraphicalLocation("Something went wrong. Please, try again.");
-                        dispatch(activateLoader(false));
+                        activateLoader(false);
                         return;
                     }
                     if (resolvedPromises.length) setCitiesWeather(resolvedPromises);
@@ -204,7 +205,7 @@ const useGeoGraphicalLocation = () => {
             };
             executeAsyncCall();
         }
-    }, [citiesWoeids, dispatch]);
+    }, [activateLoader, citiesWoeids]);
 
     useEffect(() => {
         if (citiesWeather?.length) {
@@ -234,10 +235,10 @@ const useGeoGraphicalLocation = () => {
                     country: citiesWeather[correctIndex].parent.title,
                     weather: citiesWeather[correctIndex].consolidated_weather[0],
                 });
-                dispatch(activateLoader(false));
+                activateLoader(false);
             }
         }
-    }, [citiesWeather, moodGroup, dispatch, filterHotAndHottestStates]);
+    }, [citiesWeather, moodGroup, filterHotAndHottestStates, activateLoader]);
 
     return geographicalLocation;
 

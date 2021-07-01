@@ -1,20 +1,20 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { lazy, Suspense, useContext } from "react";
 import styles from "./index.module.scss";
 import useDocumentEventListener from "../hooks/useDocumentEventListener";
 import { EMOTICON, ABOUT } from "../constants";
-import { activeLoaderSelector, uiReferenceSelector } from "../store/selectors";
-import Loader from "../uiLibrary/Loader";
 import Modal from "../uiLibrary/Modal";
 import Header from "./Header";
 import Footer from "./Footer";
+import EmoweatherContext from "../context";
+import { ContextType } from "../commonTypings";
 
 const Frame = ({ children } : { children: React.ReactNode }) => {
+  const { triggerUiElement, activeLoader } = useContext(EmoweatherContext) as ContextType;
+  const { uiReference } = triggerUiElement;
 
-  const uiReference = useSelector(uiReferenceSelector);
-  const activeLoader = useSelector(activeLoaderSelector);
+  const Loader = lazy(() => import("../uiLibrary/Loader"));
 
-  const correctReference = [EMOTICON, ABOUT].includes(uiReference) ? "modal" : uiReference;
+  const correctReference = uiReference && [EMOTICON, ABOUT].includes(uiReference) ? "modal" : uiReference;
 
   useDocumentEventListener();
 
@@ -24,7 +24,11 @@ const Frame = ({ children } : { children: React.ReactNode }) => {
         <section>{children}</section>
       <Footer />
       {correctReference === "modal" && <Modal />}
-      {activeLoader && <Loader />}
+      {activeLoader && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Loader />
+        </Suspense>
+      )}
     </div>
   );
 };

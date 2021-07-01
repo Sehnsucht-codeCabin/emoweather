@@ -1,15 +1,16 @@
 import SearchBar from "../../uiLibrary/SearchBar";
 import styles from "./index.module.scss";
-import { useDispatch } from "react-redux";
-import { triggerUiElement } from "../../store/slices/documentEventListenerSlice";
 import { EMOTICON } from "../../constants";
+import { useContext } from "react";
+import EmoweatherContext from "../../context";
+import { ContextType } from "../../commonTypings";
 
 const Home = () => {
-    const dispatch = useDispatch();
+    const { setTriggerUiElement } = useContext(EmoweatherContext) as ContextType;
 
     const toggleEmoticonsModal = () => {
         document.body.style.overflow = "hidden";
-        dispatch(triggerUiElement({ setEventListener: true, uiReference: EMOTICON, eventType: ["keyup", "click"] }));
+        setTriggerUiElement({ setEventListener: true, uiReference: EMOTICON, eventType: ["keyup", "click"] });
     } 
 
     return (

@@ -1,16 +1,16 @@
+import { lazy, Suspense, useContext } from "react";
 import styles from "./index.module.scss";
 import logo from "./resources/emoweather-logo.svg";
 import { useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import SearchBar from "../../uiLibrary/SearchBar";
 import { ABOUT } from "../../constants";
-import { triggerUiElement } from "../../store/slices/documentEventListenerSlice";
+import EmoweatherContext from "../../context";
+import { ContextType } from "../../commonTypings";
 
 const Header = () => {
-
-    const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
+    const { setTriggerUiElement } = useContext(EmoweatherContext) as ContextType;
+    const SearchBar = lazy(() => import('../../uiLibrary/SearchBar'));
 
     const navigateToIndex = () => {
       history.push({
@@ -18,7 +18,7 @@ const Header = () => {
       });
     }
 
-    const toggleAboutModal = () => dispatch(triggerUiElement({ setEventListener: true, uiReference: ABOUT, eventType: ["keyup", "click"] }));
+    const toggleAboutModal = () => setTriggerUiElement({ setEventListener: true, uiReference: ABOUT, eventType: ["keyup", "click"] });
       
     return (
       <header>
@@ -27,10 +27,14 @@ const Header = () => {
             <img alt="emoweather logo" src={logo} />
           </div>
           <div className={styles.middleContainer}>
-            {location.pathname === "/result" ? (
-              <div className={styles.searchBarContainer}><SearchBar /></div>
-            ) : null}
-            <div className={styles.about} onClick={toggleAboutModal}>
+            {location.pathname === "/result" && (
+              <div className={styles.searchBarContainer}>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <SearchBar />
+                </Suspense>
+              </div>
+            )}
+            <button data-test="about-button" className={styles.about} onClick={toggleAboutModal}>
               <svg viewBox="0 0 286.054 286.054" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M143.027,0C64.04,0,0,64.04,0,143.027c0,78.996,64.04,143.027,143.027,143.027
@@ -42,7 +46,7 @@ const Header = () => {
                     C160.878,195.732,152.878,187.723,143.036,187.723z"
                 />
               </svg>
-            </div>
+            </button>
             
           </div>
           <div style={{width:"172px"}}></div>
