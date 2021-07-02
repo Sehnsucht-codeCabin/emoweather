@@ -14,14 +14,14 @@ const Home = () => {
     } 
 
     return (
-        <div className={styles.contentContainer}>
+        <div data-test="content-container" className={styles.contentContainer}>
             <div className={styles.bodyTitleContainer}>
                 <h1 className={styles.mainTitle}>How are you feeling today?</h1>
                 <p className={styles.subtitle}>Find the city where your current mood belongs to.</p>
             </div>
             <SearchBar />
             <div className={styles.emoticonBtnWrapper}>
-                <button data-info="initiator" id="toggleEmoticonIconsBtn" type="submit" className={styles.emoticonBtn} onClick={toggleEmoticonsModal}>No, emoticon me!</button>
+                <button data-test="emoticon-button" data-info="initiator" id="toggleEmoticonIconsBtn" type="submit" className={styles.emoticonBtn} onClick={toggleEmoticonsModal}>No, emoticon me!</button>
             </div>
         </div>
     );

@@ -1,6 +1,8 @@
 import { mount } from "enzyme";
+import { BrowserRouter } from "react-router-dom";
 import Frame from "..";
 import { EmoweatherProvider } from "../../context/Provider";
+import { Suspense } from "react";
 
 jest.mock('react-router-dom', () => ({
     useLocation: () => ({
@@ -15,7 +17,14 @@ describe("Header", () => {
     let wrapper;
 
     beforeAll(() => {
-        wrapper = mount(<EmoweatherProvider><Frame /></EmoweatherProvider>);
+        wrapper = mount(
+            <EmoweatherProvider>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Frame>
+                    </Frame>
+                </Suspense>
+            </EmoweatherProvider>
+        );
     });
 
     test("assess header elements", () => {
