@@ -24,6 +24,7 @@ const RegularSearchBar = () => {
                 className={styles.moodInputForm}
                 action=""
                 data-variant="keyword"
+                data-test="search-form"
             >
                 <div className={styles.moodInputContainer}>
                 {!!keyWords.length ? (

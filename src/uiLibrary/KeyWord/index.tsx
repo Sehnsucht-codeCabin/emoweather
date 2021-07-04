@@ -9,7 +9,7 @@ interface IKeyWord {
 const KeyWord = ({ keyWord, removeKeyWord } : { keyWord: IKeyWord, removeKeyWord: React.MouseEventHandler<HTMLButtonElement>}) => {
   const { term, active } = keyWord;
   return (
-    <div className={styles.keyWordContainer} data-variant={active ? "enabled" : "disabled"}>
+    <div className={styles.keyWordContainer} data-variant={active ? "enabled" : "disabled"} data-test="keyword">
       <div>
         <span>{term}</span>
         <span data-variant={active ? "enabled" : "disabled"}></span>

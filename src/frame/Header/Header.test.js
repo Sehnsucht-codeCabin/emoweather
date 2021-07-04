@@ -1,5 +1,4 @@
 import { mount } from "enzyme";
-import { BrowserRouter } from "react-router-dom";
 import Frame from "..";
 import { EmoweatherProvider } from "../../context/Provider";
 import { Suspense } from "react";
