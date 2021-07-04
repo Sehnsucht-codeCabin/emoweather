@@ -57,7 +57,7 @@ const RegularSearchBar = () => {
                 </div>
             </form>
             {location.pathname !== "/result" ? (
-                <p className={styles.hint}>{hintContent}</p>
+                <p data-test="hint-content" className={styles.hint}>{hintContent}</p>
             ) : null}
         </>
     );
