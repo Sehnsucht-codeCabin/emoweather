@@ -130,23 +130,41 @@ describe("RegularSearchBar", () => {
         expect(disabledKeyWords).toHaveLength(2);
         expect(disabledKeyWords.at(0).find("[data-test='term']").text()).toBe("ok");
         expect(disabledKeyWords.at(1).find("[data-test='term']").text()).toBe("sad");
+
+        enabledKeyWords.at(0).find("[data-test='remove-keyword-button']").simulate("click");
+        searchForm = wrapper.find("[data-test='search-form']");
+        enabledKeyWords = searchForm.find("[data-test='keyword-enabled']");
+        expect(enabledKeyWords).toHaveLength(0);
+        disabledKeyWords = searchForm.find("[data-test='keyword-disabled']");
+        expect(disabledKeyWords).toHaveLength(3);
+        expect(disabledKeyWords.at(0).find("[data-test='term']").text()).toBe("ok");
+        expect(disabledKeyWords.at(1).find("[data-test='term']").text()).toBe("sad");
+        expect(disabledKeyWords.at(2).find("[data-test='term']").text()).toBe("happy");
+
+        submitButton = searchForm.find("[type='submit']");
+        expect(submitButton).toHaveLength(1);
+        expect(submitButton.props().disabled).toBeTruthy();
     });
 
-    test("restore disabled key words", () => {
+    test("enable disabled key words", () => {
         searchForm = wrapper.find("[data-test='search-form']");
         let disabledKeyWords = searchForm.find("[data-test='keyword-disabled']");
-        expect(disabledKeyWords).toHaveLength(2);
+        expect(disabledKeyWords).toHaveLength(3);
         let enabledKeyWords = searchForm.find("[data-test='keyword-enabled']");
-        expect(enabledKeyWords).toHaveLength(1);
+        expect(enabledKeyWords).toHaveLength(0);
 
         disabledKeyWords.at(0).find("[data-test='remove-keyword-button']").simulate("click");
         searchForm = wrapper.find("[data-test='search-form']");
         enabledKeyWords = searchForm.find("[data-test='keyword-enabled']");
-        expect(enabledKeyWords).toHaveLength(2);
+        expect(enabledKeyWords).toHaveLength(1);
         expect(enabledKeyWords.at(0).find("[data-test='term']").text()).toBe("ok");
-        expect(enabledKeyWords.at(1).find("[data-test='term']").text()).toBe("happy");
         disabledKeyWords = searchForm.find("[data-test='keyword-disabled']");
-        expect(disabledKeyWords).toHaveLength(1);
+        expect(disabledKeyWords).toHaveLength(2);
         expect(disabledKeyWords.at(0).find("[data-test='term']").text()).toBe("sad");
+        expect(disabledKeyWords.at(1).find("[data-test='term']").text()).toBe("happy");
+
+        submitButton = searchForm.find("[type='submit']");
+        expect(submitButton).toHaveLength(1);
+        expect(submitButton.props().disabled).toBeFalsy();
     });
 });
