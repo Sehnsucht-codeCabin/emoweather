@@ -7,7 +7,7 @@ const Emoticons = ({ setEmoticonMood } : { setEmoticonMood: React.MouseEventHand
         <div className={styles.emoticonWrapper}>
             {Object.keys(emoticons).map(emoticon => {
                 const { html, key } = emoticons[emoticon];
-                return <button data-mood={emoticon} onClick={setEmoticonMood} key={key}>
+                return <button data-test="mood-button" data-mood={emoticon} onClick={setEmoticonMood} key={key}>
                     <svg viewBox="0 0 384 384" xmlns="http://www.w3.org/2000/svg">
                         {html}
                     </svg>

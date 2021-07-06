@@ -20,6 +20,7 @@ const EmoticonSearchBar = () => {
                 className={styles.moodInputForm}
                 action=""
                 data-variant="emoticon"
+                data-test="search-form"
             >
                 <div className={styles.moodInputContainer}>
                     {keyWords.length ? (
