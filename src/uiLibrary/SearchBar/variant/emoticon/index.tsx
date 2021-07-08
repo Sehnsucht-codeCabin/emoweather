@@ -53,7 +53,7 @@ const EmoticonsModal = () => {
                     </button>
                 </div>
             </form>
-            <Emoticons setEmoticonMood={setEmoticonMood} addedEmoticons={keyWords} />
+            <Emoticons setEmoticonMood={setEmoticonMood} />
         </>
     );
 }

@@ -1,5 +1,5 @@
 import { nanoid } from "@reduxjs/toolkit";
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ContextType } from "../commonTypings";
 import { EMOTICON } from "../constants";
@@ -23,7 +23,7 @@ const useInput = () => {
     const [currentValue, setCurrentValue] = useState<string | undefined>("");
     const [hintContent, setHintContent] = useState("");
 
-    const insertMood = (value : string) => {
+    const insertMood = useCallback((value : string) => {
         if (!emoticonForm && (!value || (value && value[value.length - 1] !== ","))) return;
 
         const cleanValue = !emoticonForm ? value?.slice(0, -1) : value;
@@ -43,7 +43,7 @@ const useInput = () => {
         });
         setActiveButton(true);
         setKeyWords(currentKeyWords);
-    };
+    }, [emoticonForm, keyWords]);
 
     const changeText : React.ChangeEventHandler<HTMLInputElement> = (event) => {
         event.preventDefault();
@@ -55,14 +55,12 @@ const useInput = () => {
         if (value === "") setHintContent("");
     };
 
-    const setEmoticonMood: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-        const { currentTarget } = event;
-        const value = currentTarget.dataset.mood;
+    const setEmoticonMood = useCallback((value) => {
         setCurrentValue(value);
         if (value) insertMood(value);
         if (value && value.length > 0 && !value.includes(",")) setHintContent(value ? `Press Comma to add '${value}'` : "");
         if (value === "") setHintContent("");
-    };
+    }, [insertMood]);
 
     const queryMood : React.FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault();
