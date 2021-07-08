@@ -73,13 +73,15 @@ describe("EmoticonSearchBar", () => {
         expect(modal).toHaveLength(1);
         searchForm = modal.find("[data-test='search-form']");
         expect(searchForm).toHaveLength(1);
+        submitButton = searchForm.find("[type='submit']");
+        expect(submitButton).toHaveLength(1);
+        expect(submitButton.props().disabled).toBeFalsy();
         let addedEmoticons = searchForm.find("[data-test='emoticon']");
         expect(addedEmoticons).toHaveLength(1);
         let emoticonsButtons = modal.find("[data-test*='emoticon-button']");
         expect(emoticonsButtons.length).toEqual(Object.keys(emoticons).length - 1);
         sadEmoticonButton = modal.find("[data-test='emoticon-button-sad']");
         expect(sadEmoticonButton).toHaveLength(0);
-
 
         let coolEmoticonButton = modal.find("[data-test='emoticon-button-cool']");
         expect(coolEmoticonButton).toHaveLength(1);
@@ -91,6 +93,9 @@ describe("EmoticonSearchBar", () => {
         expect(modal).toHaveLength(1);
         searchForm = modal.find("[data-test='search-form']");
         expect(searchForm).toHaveLength(1);
+        submitButton = searchForm.find("[type='submit']");
+        expect(submitButton).toHaveLength(1);
+        expect(submitButton.props().disabled).toBeFalsy();
         addedEmoticons = searchForm.find("[data-test='emoticon']");
         expect(addedEmoticons).toHaveLength(2);
         emoticonsButtons = modal.find("[data-test*='emoticon-button']");
