@@ -10,7 +10,7 @@ const Header = () => {
     const history = useHistory();
     const location = useLocation();
     const { setTriggerUiElement } = useContext(EmoweatherContext) as ContextType;
-    const SearchBar = lazy(() => import('../../uiLibrary/SearchBar'));
+    const RegularSearchBar = lazy(() => import('../../uiLibrary/SearchBar/variant/regular'));
 
     const navigateToIndex = () => {
       history.push({
@@ -19,7 +19,7 @@ const Header = () => {
     }
 
     const toggleAboutModal = () => setTriggerUiElement({ setEventListener: true, uiReference: ABOUT, eventType: ["keyup", "click"] });
-      
+
     return (
       <header>
         <div className={styles.navWrapper}>
@@ -30,7 +30,7 @@ const Header = () => {
             {location.pathname === "/result" && (
               <div className={styles.searchBarContainer}>
                 <Suspense fallback={<div>Loading...</div>}>
-                  <SearchBar />
+                  <RegularSearchBar />
                 </Suspense>
               </div>
             )}

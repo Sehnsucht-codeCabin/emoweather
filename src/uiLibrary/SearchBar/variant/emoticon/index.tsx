@@ -1,4 +1,3 @@
-// import Emoticons from "../../../Modal/children/EmoticonModal/children/Emoticons";
 import emoticons from "../../../../assets/emoticons";
 import styles from "../../index.module.scss";
 import useInput from "../../../../hooks/useInput";
@@ -30,8 +29,8 @@ const EmoticonsModal = () => {
                                 const { term } = keyWord;
                                 const { html } = emoticons[term];
                                 return (
-                                    <div key={nanoid()} style={{ width: "70px", height: "70px" }}>
-                                        <svg style={{ fill: "white" }} viewBox="0 0 384 384" xmlns="http://www.w3.org/2000/svg">
+                                    <div className={styles.emoticonWrapper} data-test="emoticon" key={nanoid()}>
+                                        <svg viewBox="0 0 384 384" xmlns="http://www.w3.org/2000/svg">
                                             {html}
                                         </svg>
                                     </div>
@@ -54,7 +53,7 @@ const EmoticonsModal = () => {
                     </button>
                 </div>
             </form>
-            <Emoticons setEmoticonMood={setEmoticonMood} />
+            <Emoticons setEmoticonMood={setEmoticonMood} addedEmoticons={keyWords} />
         </>
     );
 }

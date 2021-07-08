@@ -3,7 +3,7 @@
   display: flex;
   overflow: hidden;
   position: relative;
-  border-radius: 34px;
+  border-radius: 2.125rem;
   width: 100%;
 
   &[data-variant="emoticon"] {
@@ -19,23 +19,32 @@
   .moodInputContainer {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 70px);
-    min-height: 70px;
+    width: calc(100% - 4.375rem);
+    min-height: 4.375rem;
     justify-content: space-between;
     align-items: flex-start;
-    margin-left: 30px;
+    margin-left: 1.875rem;
 
     .keyWordsContainer {
-      padding: 20px 10px 10px 0;
+      padding: 1.25rem 0.625rem 0.625rem 0;
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
       justify-content: space-between;
+
+      .emoticonWrapper {
+        width: 4.375rem;
+        height: 4.375rem;
+
+        svg {
+          fill: white;
+        }
+      }
     }
 
     .moodInput {
       border: none;
-      height: 70px;
+      height: 4.375rem;
       width: 100%;
       text-align: center;
       outline: none;
@@ -65,7 +74,7 @@
 
   .searchBoxButton {
     border: none;
-    width: 70px;
+    width: 4.375rem;
     height: 100%;
     outline: none;
     cursor: pointer;
