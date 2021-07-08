@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { ContextType } from "../../commonTypings";
 import { ABOUT, EMOTICON } from "../../constants";
 import EmoweatherContext from "../../context";
+import EmoticonsModal from "../SearchBar/variant/emoticon";
 import AboutModal from "./children/AboutModal";
-import EmoticonModal from "./children/EmoticonModal";
 import styles from "./index.module.scss";
 
 const Modal = () => {
@@ -29,7 +29,7 @@ const Modal = () => {
                 modalBody = <AboutModal />;
                 break;
             case EMOTICON:
-                modalBody = <EmoticonModal />;
+                modalBody = <EmoticonsModal />
                 break;
             default:
                 modalBody = null;

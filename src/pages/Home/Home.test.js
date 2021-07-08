@@ -6,8 +6,8 @@ import Frame from "../../frame";
 import { Suspense } from "react";
 import Routes from "../../Routes";
 import Modal from "../../uiLibrary/Modal";
-import EmoticonModal from "../../uiLibrary/Modal/children/EmoticonModal";
 import RegularSearchBar from "../../uiLibrary/SearchBar/variant/regular";
+import EmoticonsModal from "../../uiLibrary/SearchBar/variant/emoticon";
 
 describe("Home", () => {
     let wrapper;
@@ -49,6 +49,6 @@ describe("Home", () => {
         const modal = wrapper.find(Modal);
         expect(modal).toHaveLength(1);
         expect(modal.find("[data-test='modal-background']")).toHaveLength(1);
-        expect(modal.find(EmoticonModal)).toHaveLength(1);
+        expect(modal.find(EmoticonsModal)).toHaveLength(1);
     });
 });

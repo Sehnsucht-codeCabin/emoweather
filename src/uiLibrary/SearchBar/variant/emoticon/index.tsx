@@ -1,10 +1,11 @@
-import Emoticons from "../../../Modal/children/EmoticonModal/children/Emoticons";
+// import Emoticons from "../../../Modal/children/EmoticonModal/children/Emoticons";
 import emoticons from "../../../../assets/emoticons";
 import styles from "../../index.module.scss";
 import useInput from "../../../../hooks/useInput";
 import { nanoid } from "@reduxjs/toolkit";
+import Emoticons from "../../children/Emoticons";
 
-const EmoticonSearchBar = () => {
+const EmoticonsModal = () => {
     const {
         queryMood,
         setEmoticonMood,
@@ -58,4 +59,4 @@ const EmoticonSearchBar = () => {
     );
 }
 
-export default EmoticonSearchBar;
+export default EmoticonsModal;

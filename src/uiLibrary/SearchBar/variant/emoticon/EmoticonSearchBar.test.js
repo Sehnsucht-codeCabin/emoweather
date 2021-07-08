@@ -5,7 +5,8 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import Frame from "../../../../frame/index";
 import Routes from "../../../../Routes";
 import Modal from "../../../Modal";
-import EmoticonModal from "../../../Modal/children/EmoticonModal";
+import emoticons from "../../../../assets/emoticons";
+import EmoticonsModal from ".";
 
 describe("EmoticonSearchBar", () => {
     let wrapper;
@@ -28,7 +29,7 @@ describe("EmoticonSearchBar", () => {
         );
     });
 
-    test("assess emoticon form", () => {
+    test("assess emoticons content", () => {
         const contentContainer = wrapper.find("[data-test='content-container']");
         expect(contentContainer).toHaveLength(1);
 
@@ -38,7 +39,7 @@ describe("EmoticonSearchBar", () => {
         const modal = wrapper.find(Modal);
         expect(modal).toHaveLength(1);
         expect(modal.find("[data-test='modal-background']")).toHaveLength(1);
-        expect(modal.find(EmoticonModal)).toHaveLength(1);
+        expect(modal.find(EmoticonsModal)).toHaveLength(1);
 
         searchForm = modal.find("[data-test='search-form']");
         expect(searchForm).toHaveLength(1);
@@ -46,7 +47,7 @@ describe("EmoticonSearchBar", () => {
         expect(submitButton).toHaveLength(1);
         expect(submitButton.props().disabled).toBeTruthy();
 
-        const emoticons = wrapper.find("[data-test='mood-button']");
-        expect(emoticons.length).toBeGreaterThan(0);
+        const emoticonsButtons = wrapper.find("[data-test='mood-button']");
+        expect(emoticonsButtons.length).toEqual(Object.keys(emoticons).length);
     });
 });

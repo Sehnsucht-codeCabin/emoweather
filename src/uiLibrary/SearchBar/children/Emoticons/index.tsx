@@ -1,8 +1,8 @@
 import styles from "./index.module.scss";
-import emoticons from "../../../../../../assets/emoticons";
 import React from "react";
+import emoticons from "../../../../assets/emoticons";
 
-const Emoticons = ({ setEmoticonMood } : { setEmoticonMood: React.MouseEventHandler<HTMLButtonElement>}) => {
+const Emoticons = ({ setEmoticonMood } : { setEmoticonMood: React.MouseEventHandler<HTMLButtonElement>} ) => {
     return (
         <div className={styles.emoticonWrapper}>
             {Object.keys(emoticons).map(emoticon => {

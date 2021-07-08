@@ -1,9 +1,9 @@
-import SearchBar from "../../uiLibrary/SearchBar";
 import styles from "./index.module.scss";
 import { EMOTICON } from "../../constants";
 import { useContext } from "react";
 import EmoweatherContext from "../../context";
 import { ContextType } from "../../commonTypings";
+import RegularSearchBar from "../../uiLibrary/SearchBar/variant/regular";
 
 const Home = () => {
     const { setTriggerUiElement } = useContext(EmoweatherContext) as ContextType;
@@ -11,7 +11,7 @@ const Home = () => {
     const toggleEmoticonsModal = () => {
         document.body.style.overflow = "hidden";
         setTriggerUiElement({ setEventListener: true, uiReference: EMOTICON, eventType: ["keyup", "click"] });
-    } 
+    }
 
     return (
         <div data-test="content-container" className={styles.contentContainer}>
@@ -19,7 +19,7 @@ const Home = () => {
                 <h1 className={styles.mainTitle}>How are you feeling today?</h1>
                 <p className={styles.subtitle}>Find the city where your current mood belongs to.</p>
             </div>
-            <SearchBar />
+            <RegularSearchBar />
             <div className={styles.emoticonBtnWrapper}>
                 <button data-test="emoticon-button" data-info="initiator" id="toggleEmoticonIconsBtn" type="submit" className={styles.emoticonBtn} onClick={toggleEmoticonsModal}>No, emoticon me!</button>
             </div>
