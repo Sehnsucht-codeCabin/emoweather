@@ -69,13 +69,15 @@ const useInput = () => {
             setTriggerUiElement({ setEventListener: false, uiReference: null, eventType: null });
         }
 
-        const query = keyWords.filter(keyword => !!keyword.active);
-        const term : string[] | null = query.length ? [query[0].term] : (currentValue ? [currentValue] : null);
-        if (term) {
+        const queryTerms = keyWords.reduce((accumulator : string[], keyWord : IKeyWord) => {
+            if (keyWord.active) accumulator.push(keyWord.term);
+            return accumulator;
+        }, []);
+        if (queryTerms.length) {
             history.push({
                 pathname: "/result",
                 state: {
-                    moods: term,
+                    moods: queryTerms,
                 },
             });
         }
