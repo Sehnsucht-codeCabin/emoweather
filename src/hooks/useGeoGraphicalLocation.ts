@@ -36,7 +36,6 @@ const useGeoGraphicalLocation = () => {
     const [citiesWoeids, setCitiesWoeids] = useState<number[] | undefined>([]);
     const [citiesWeather, setCitiesWeather] = useState<{ [key: string]: any }[] | undefined>();
     const [geographicalLocation, setGeoGraphicalLocation] = useState<IGeographicalLocation | string>();
-    const [moodKeys] = useState(Object.keys(moodStates));
 
     const { activateLoader } = useContext(EmoweatherContext) as ContextType;
 
@@ -45,8 +44,7 @@ const useGeoGraphicalLocation = () => {
             [key: string]: number
         } = {};
 
-        const setMoodGroupScore = (resolvedPromises : Array<{ moodKey: string }>) => {
-            if (!moodGroupsScore) moodGroupsScore = {};
+        const determineMoodGroupsScore = (resolvedPromises : Array<{ moodKey: string }>) => {
             resolvedPromises.forEach(promise => {
                 if (!moodGroupsScore[promise.moodKey]) moodGroupsScore[promise.moodKey] = 1;
                 if (!!moodGroupsScore[promise.moodKey]) moodGroupsScore[promise.moodKey] = moodGroupsScore[promise.moodKey] + 1;
@@ -54,14 +52,14 @@ const useGeoGraphicalLocation = () => {
         }
 
         for (let index = 0; index < moods.length; index++) {
-            const response : any = await getMoodGroup(moodKeys, moods[index]);
+            const response : any = await getMoodGroup(moods[index]);
             const { errorMessages, resolvedPromises } : { errorMessages: string[], resolvedPromises: value[]} = filterAsyncCallResponse(response);
             if (errorMessages.length) {
                 setGeoGraphicalLocation("Something went wrong. Please, try again.");
                 activateLoader(false);
                 return;
             }
-            if (resolvedPromises.length) setMoodGroupScore(resolvedPromises);
+            if (resolvedPromises.length) determineMoodGroupsScore(resolvedPromises);
         }
 
         if (Object.keys(moodGroupsScore).length) {
@@ -91,7 +89,7 @@ const useGeoGraphicalLocation = () => {
             setGeoGraphicalLocation("No results found. Please, try again.");
         }
 
-    }, [activateLoader, moodKeys]);
+    }, [activateLoader]);
 
     const filterHotAndHottestStates = useCallback((humidity) => {
         if (citiesWeather) {
@@ -209,7 +207,7 @@ const useGeoGraphicalLocation = () => {
 
     useEffect(() => {
         if (citiesWeather?.length) {
-            const averageTemperature = citiesWeather.map(
+            const averageTemperatures = citiesWeather.map(
                 (item: any) => item.consolidated_weather[0].the_temp
             );
             let correctIndex;
@@ -217,8 +215,8 @@ const useGeoGraphicalLocation = () => {
                 case "down":
                 case "warm":
                     const maxOrMin = moodGroup.group === "warm" ? "max" : "min";
-                    correctIndex = averageTemperature.indexOf(
-                        Math[maxOrMin].apply(Math, averageTemperature)
+                    correctIndex = averageTemperatures.indexOf(
+                        Math[maxOrMin].apply(Math, averageTemperatures)
                     );
                     break;
                 case "up":

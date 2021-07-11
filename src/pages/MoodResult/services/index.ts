@@ -1,3 +1,5 @@
+import moodStates from "../../../assets/moodStates";
+const moodKeys = Object.keys(moodStates);
 const base = "https://api.allorigins.win/raw?url=";
 const metaWeatherApi = `${base}https://www.metaweather.com`;
 const dataMuseApi = `https://api.datamuse.com`;
@@ -22,7 +24,7 @@ const getCitiesWeather = (woeids: number[]) => {
   );
 };
 
-const getMoodGroup = (moodKeys: string[], mood: string) => {
+const getMoodGroup = (mood: string) => {
   return Promise.allSettled(
     moodKeys.map((moodKey) =>
       fetch(`${dataMuseApi}/words?ml=${moodKey}&sp=${mood}`)
