@@ -16,7 +16,6 @@ const EmoticonsModal = () => {
                     id="search-box-btn"
                     type="submit"
                     className={styles.submitButton}
-                    data-variant="emoticon"
                     onClick={queryMood}>
                         Submit
             </button>
