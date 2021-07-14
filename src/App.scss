@@ -9,7 +9,7 @@
 	 Variables
 	 ========================================================================== */
 :root {
-  --btn-measure: 70px;
+  --btn-measure: 4.375rem;
   --myYellow: orange;
 }
 
@@ -35,11 +35,10 @@ p {
 }
 
 section {
-  min-height: calc(100vh - 202px); // header height + footer height
+  min-height: calc(100vh - 12.625rem);
   box-sizing: border-box;
 }
 
-// remove blue background on auto-complete
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus textarea:-webkit-autofill,
@@ -47,5 +46,5 @@ textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  box-shadow: 0 0 0px 1000px white inset;
+  box-shadow: 0 0 0 62.5rem white inset;
 }

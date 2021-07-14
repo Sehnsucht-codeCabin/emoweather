@@ -17,10 +17,15 @@ const RegularSearchBar = () => {
         hintContent
     } = useInput();
 
+    const onQueryMood : React.FormEventHandler<HTMLFormElement>= (event) => {
+        event.preventDefault();
+        queryMood();
+    }
+
     return (
         <>
             <form
-                onSubmit={queryMood}
+                onSubmit={onQueryMood}
                 className={styles.moodInputForm}
                 action=""
                 data-variant="keyword"

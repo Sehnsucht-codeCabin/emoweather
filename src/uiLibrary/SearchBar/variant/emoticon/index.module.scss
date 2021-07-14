@@ -1,0 +1,19 @@
+.submitButton {
+  height: var(--btn-measure);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  background-color: black;
+  border: 1px solid white;
+  color: white;
+  font-size: 1.7rem;
+  cursor: pointer;
+  font-family: "Source Sans Pro", sans-serif;
+  border-radius: 2.125rem;
+  padding: 0;
+
+  &:disabled {
+    cursor: auto;
+    color: gray;
+  }
+}

@@ -24,18 +24,33 @@ const useInput = () => {
     const [hintContent, setHintContent] = useState("");
 
     const insertMood = useCallback((value : string) => {
-        if (!emoticonForm && (!value || (value && value[value.length - 1] !== ","))) return;
+        let cleanValue = value;
+        let termOnList;
+        const currentKeyWords : IKeyWord[] = [...keyWords]; 
 
-        const cleanValue = !emoticonForm ? value?.slice(0, -1) : value;
-        const termOnList = keyWords.find((keyWord : IKeyWord) => keyWord.term === cleanValue);
-        setCurrentValue("");
-        if (termOnList) {
-            setHintContent(`The term '${cleanValue}' is already listed`);
-            return;
+        if (emoticonForm) {
+            termOnList = keyWords.find((keyWord : IKeyWord) => keyWord.term === cleanValue);
+            if (termOnList) {
+                const index = currentKeyWords.indexOf(termOnList);
+                currentKeyWords.splice(index, 1);
+                setKeyWords(currentKeyWords);
+                if (!currentKeyWords.length) setActiveButton(false)
+                return;
+            }
         }
 
-        setHintContent("");
-        let currentKeyWords : IKeyWord[] = [...keyWords]; 
+        if (!emoticonForm) {
+            if (!value || value[value.length - 1] !== ",") return;
+            cleanValue = value?.slice(0, -1);
+            setCurrentValue("");
+            termOnList = keyWords.find((keyWord : IKeyWord) => keyWord.term === cleanValue);
+            if (termOnList) {
+                setHintContent(`The term '${cleanValue}' is already listed`);
+                return;
+            }
+            setHintContent("");
+        }
+        
         currentKeyWords.push({
             term: cleanValue,
             active: true,
@@ -55,15 +70,7 @@ const useInput = () => {
         if (value === "") setHintContent("");
     };
 
-    const setEmoticonMood = useCallback((value) => {
-        setCurrentValue(value);
-        if (value) insertMood(value);
-        if (value && value.length > 0 && !value.includes(",")) setHintContent(value ? `Press Comma to add '${value}'` : "");
-        if (value === "") setHintContent("");
-    }, [insertMood]);
-
-    const queryMood : React.FormEventHandler<HTMLFormElement> = (event) => {
-        event.preventDefault();
+    const queryMood = () => {
         if (emoticonForm) {
             document.body.style.overflow = "auto";
             setTriggerUiElement({ setEventListener: false, uiReference: null, eventType: null });
@@ -102,7 +109,7 @@ const useInput = () => {
         queryMood,
         removeKeyWord,
         changeText,
-        setEmoticonMood,
+        insertMood,
         keyWords,
         currentValue,
         activeButton,

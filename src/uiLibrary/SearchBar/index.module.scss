@@ -84,11 +84,11 @@
     border-left: 1px solid #f1f1f1;
     cursor: pointer;
 
-    &[variant="emoticon"] {
+    &[data-variant="emoticon"] {
       background-color: transparent;
     }
 
-    &[variant="keyword"] {
+    &[data-variant="keyword"] {
       background-color: white;
     }
 

@@ -9,14 +9,26 @@
     width: 4.375rem;
     height: 4.375rem;
     margin: 0 1rem 1.875rem;
-    border: none;
     overflow: hidden;
     border-radius: 50%;
-    padding: 0;
     cursor: pointer;
 
-    svg {
-      fill: white;
+    &[data-variant~="selected"] {
+      padding: 0.625rem;
+      border: 0.125rem dashed gray;
+
+      svg {
+        fill: gray;
+      }
+    }
+
+    &[data-variant~="non-selected"] {
+      padding: 0;
+      border: none;
+
+      svg {
+        fill: white;
+      }
     }
   }
 }
